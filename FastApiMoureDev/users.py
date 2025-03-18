@@ -30,12 +30,23 @@ async def usersjson():
 @app.get("/user/{id}")
 async def get_user(id: int):
     print(f"Consumo de EndPoint user con path {id}")
+    return search_user(id)
     
+
+# EndPoint con Query
+@app.get("/userquery/")
+async def user_query(id: int):
+    print(f"Consumo de EndPoint user con path Query {id}")
+    return search_user(id)
+
+
+
+    
+def search_user(id: int):
     # crea una lista de users con filter
     users = filter(lambda user: user.id == id, users_list)    
     try:
         # con el [0] retorna en modo item -> {} mas no en modo lista - > [{}]
         return list(users)[0]
     except:
-        return f"Lista vacia - verificar indice: {id}"
-    # return users_list[id - 1] # otra forma pero requiere envaluar id no existente
+        return {"error": f"No se encuentra usuario con indice {id}"}
