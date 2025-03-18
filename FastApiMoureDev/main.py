@@ -10,3 +10,8 @@ app = FastAPI()
 async def root():
     print("endpoint")
     return {"mensaje": "Hola brooo"}
+
+@app.get("/url")
+async def url():
+    print("endpoint")
+    return {"url": "racastillo@racastillo.com"}
