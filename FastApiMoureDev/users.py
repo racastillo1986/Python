@@ -40,6 +40,19 @@ async def user_query(id: int):
     return search_user(id)
 
 
+@app.post("/users")
+def crear_usuario(user: User):
+    print("EndPoint users post")
+    
+    if type(search_user(user.id)) == User:
+        print(f"Usuario con id: {user.id} ya existe")
+        return {"error": "Ya existe"}
+    
+    print(f"Almacenado usuario con id {user.id}")    
+    users_list.append(user)
+    return user
+
+
 
     
 def search_user(id: int):
