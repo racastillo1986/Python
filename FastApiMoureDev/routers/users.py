@@ -1,4 +1,4 @@
-from fastapi import FastAPI, status, HTTPException
+from fastapi import APIRouter, status, HTTPException
 from pydantic import BaseModel
 from typing import Optional
 
@@ -16,10 +16,10 @@ users_list = [User(id=1, name="Juan", surname="Pérez", url="http://juan.com", a
                    url="http://ana.com", age=31),
               User(id=3, name="Luis", surname="Martínez", url="http://luis.com", age=32)]
 
-app = FastAPI()
+router = APIRouter()
 
 
-@app.get("/users")
+@router.get("/users")
 async def usersjson():
     print("Consumo de EndPoint usersjson")
     # Imprimir la lista de usuarios
@@ -29,21 +29,21 @@ async def usersjson():
 
 
 # Uso de PATH con el parámetro id
-@app.get("/user/{id}")
+@router.get("/user/{id}")
 async def get_user(id: int):
     print(f"Consumo de EndPoint user con path {id}")
     return search_user(id)
 
 
 # EndPoint con Query
-@app.get("/userquery/")
+@router.get("/userquery/")
 async def user_query(id: int):
     print(f"Consumo de EndPoint user con path Query {id}")
     return search_user(id)
 
 
 # POST
-@app.post("/users", status_code=status.HTTP_201_CREATED)
+@router.post("/users", status_code=status.HTTP_201_CREATED)
 def crear_usuario(user: User):
     print("EndPoint users post")
 
@@ -62,7 +62,7 @@ def crear_usuario(user: User):
 
 
 # PUT
-@app.put("/user")
+@router.put("/user")
 async def user(user: User):
     print("PUT")
     if user.id is None:
@@ -83,7 +83,7 @@ async def user(user: User):
     
 
 # DELETE
-@app.delete("/user/{id}")
+@router.delete("/user/{id}")
 async def delete_user(id: int):
     print("DELETE")
     found = False
