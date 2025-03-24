@@ -16,7 +16,7 @@ users_list = [User(id=1, name="Juan", surname="Pérez", url="http://juan.com", a
                    url="http://ana.com", age=31),
               User(id=3, name="Luis", surname="Martínez", url="http://luis.com", age=32)]
 
-router = APIRouter()
+router = APIRouter(tags=["users"])
 
 
 @router.get("/users")
