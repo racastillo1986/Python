@@ -48,7 +48,7 @@ users_db = {
 
 def search_user(username: str):
     if username in users_db:
-        return UserDB(**users_db[username])
+        return User(**users_db[username])
 
 
 async def current_user(token: str = Depends(oauth2)):
@@ -59,6 +59,11 @@ async def current_user(token: str = Depends(oauth2)):
             detail=f"Credenciales de autenticacion invalidas!!!",
             headers={"WWW-Authenticate": "Bearer"}
         )
+    
+    if not user.disabled:
+        raise HTTPException(
+            status_code=400,
+            detail="Usuario inactivo!!!")
     return user
 
 
