@@ -1,0 +1,48 @@
+from pymongo import MongoClient
+from pydantic import BaseModel
+from fastapi import FastAPI
+from bson import ObjectId  # Importa ObjectId para trabajar con el tipo de dato _id
+
+app = FastAPI()
+
+# Conexión a MongoDB
+db_client = MongoClient("mongodb://localhost:27017")
+db = db_client.MiBaseDeDatos  # Nombre de tu base de datos
+
+# Definir el modelo para los datos
+class Item(BaseModel):
+    nombre: str
+    edad: int
+    ciudad: str
+
+# Función auxiliar para formatear los resultados, incluyendo _id
+def item_helper(item) -> dict:
+    return {
+        "id": str(item["_id"]),  # Convertir el _id a string para que se pueda manejar
+        "nombre": item["nombre"],
+        "edad": item["edad"],
+        "ciudad": item["ciudad"]
+    }
+
+@app.get("/items/")
+async def get_items():
+    print("EndPoint: get_items")
+    
+    items = []
+    for item in db.usuarios.find():  # Iteración sincrónica a través de todos los usuarios
+        
+        # Obtener datos por campo
+        nombre = item.get("nombre", "Nombre no disponible")  # Utiliza .get() para evitar errores si el campo no existe
+        edad = item["edad"]
+        print(f"Nombre: {nombre} - Edad: {edad}")
+        
+        items.append(item_helper(item))  # Llamamos a item_helper para formatear los datos y add en la lista que se retorna
+        
+        # Si quieres agregar a la lista solo los campos procesados, puedes hacerlo
+        '''
+        items.append({
+            "nombre": nombre,
+            "edad": edad
+        })
+        '''
+    return items
