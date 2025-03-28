@@ -13,7 +13,7 @@ router = APIRouter(prefix="/userdb",
 # GET ALL
 @router.get("/", response_model=List[User])  # Usar List de typing
 async def user_prueba():
-    return users_schema(db_client.local.users.find())
+    return users_schema(db_client.users.find())
 
 # GET ALL - OTRA FORMA iterando el listado resultado
 @router.get("/all")
@@ -21,7 +21,7 @@ async def get_users():
     print("Listado de usuarios registrados")
     users_list = []
     # Iterar sobre todos los usuarios
-    for item in db_client.local.users.find():
+    for item in db_client.users.find():
         username = item.get("username")
         email = item.get("email")
         users_list.append({"username": username, "email": email})
@@ -77,10 +77,10 @@ def crear_usuario(user: User):
     del user_dict["id"]
 
     # Inserto registro y obtengo id generado
-    id = db_client.local.users.insert_one(user_dict).inserted_id
+    id = db_client.users.insert_one(user_dict).inserted_id
 
     # comprobar si se grabo - _id es el nombre de la clave que mongo crea
-    new_user = user_schema(db_client.local.users.find_one({"_id": id}))
+    new_user = user_schema(db_client.users.find_one({"_id": id}))
 
     return User(**new_user)
 
@@ -96,7 +96,7 @@ async def delete_user(id: str):
         )
 
     # Intentar eliminar el usuario por ID
-    found = db_client.local.users.find_one_and_delete({"_id": ObjectId(id)})
+    found = db_client.users.find_one_and_delete({"_id": ObjectId(id)})
 
     if not found:
         raise HTTPException(
@@ -115,7 +115,7 @@ async def user(user: User):
     
     try:
         # Intentamos actualizar el usuario
-        updated_user = db_client.local.users.find_one_and_replace(
+        updated_user = db_client.users.find_one_and_replace(
             {"_id": ObjectId(user.id)}, user_dict, return_document=True
         )
         
@@ -159,7 +159,7 @@ user_dict = dict(user)
 def search_user(field: str, key):
     try:
         print("Consultando si existe...")
-        user = user_schema(db_client.local.users.find_one({field: key}))
+        user = user_schema(db_client.users.find_one({field: key}))
         return User(**user)
     except:
         return {"error": f"No se encuentra usuario con {field} {key}"}

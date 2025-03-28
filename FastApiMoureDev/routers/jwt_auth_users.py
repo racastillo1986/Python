@@ -83,7 +83,7 @@ async def auth_user(token: str = Depends(oauth2)):
 async def current_user(user: User = Depends(auth_user)):
     if not user.disabled:
         raise HTTPException(
-            status_code=400,
+            status_code=403,
             detail="Usuario inactivo!!!")
     return user
 
