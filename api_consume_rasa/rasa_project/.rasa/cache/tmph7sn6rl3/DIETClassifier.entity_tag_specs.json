@@ -1,0 +1,36 @@
+[
+  {
+    "tag_name": "entity",
+    "ids_to_tags": {
+      "1": "B-fechaDesde",
+      "2": "I-fechaDesde",
+      "3": "L-fechaDesde",
+      "4": "U-fechaDesde",
+      "5": "B-fechaHasta",
+      "6": "I-fechaHasta",
+      "7": "L-fechaHasta",
+      "8": "U-fechaHasta",
+      "9": "B-numero_cuenta",
+      "10": "I-numero_cuenta",
+      "11": "L-numero_cuenta",
+      "12": "U-numero_cuenta",
+      "0": "O"
+    },
+    "tags_to_ids": {
+      "B-fechaDesde": 1,
+      "I-fechaDesde": 2,
+      "L-fechaDesde": 3,
+      "U-fechaDesde": 4,
+      "B-fechaHasta": 5,
+      "I-fechaHasta": 6,
+      "L-fechaHasta": 7,
+      "U-fechaHasta": 8,
+      "B-numero_cuenta": 9,
+      "I-numero_cuenta": 10,
+      "L-numero_cuenta": 11,
+      "U-numero_cuenta": 12,
+      "O": 0
+    },
+    "num_tags": 13
+  }
+]

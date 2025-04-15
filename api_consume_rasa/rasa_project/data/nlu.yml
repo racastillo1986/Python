@@ -1,0 +1,115 @@
+version: "3.1"
+
+nlu:
+- intent: greet
+  examples: |
+    - hola
+    - buenos días
+    - qué tal
+    - hola ahí
+    - buenas tardes
+    - buenos días a todos
+    - qué onda
+    - hey
+    - ¿cómo estás?
+    - buenas
+
+- intent: goodbye
+  examples: |
+    - adiós
+    - hasta luego
+    - nos vemos
+    - chao
+    - hasta pronto
+    - cuídate
+    - que tengas un buen día
+    - hasta la vista
+    - bye
+    
+- intent: horario
+  examples: |
+    - ¿Cuál es tu horario?
+    - ¿A qué hora trabajas?
+    - ¿En qué horario están abiertos?
+    - ¿Cuáles son tus horas de atención?
+    - ¿Qué horas tiene la tienda?
+
+- intent: servicios
+  examples: |
+    - ¿Qué servicios ofrecen?
+    - ¿Qué puedo hacer aquí?
+    - ¿A qué servicios puedo acceder?
+    - ¿Qué servicios tiene el bot?
+    - ¿Qué hacen en esta empresa?
+
+- intent: affirm
+  examples: |
+    - sí
+    - claro
+    - por supuesto
+    - efectivamente
+    - de acuerdo
+
+- intent: deny
+  examples: |
+    - no
+    - nunca
+    - no me gusta eso
+    - no creo
+    - no quiero
+    - no de verdad
+    - no estoy seguro
+
+- intent: mood_great
+  examples: |
+    - perfecto
+    - genial
+    - increíble
+    - me siento de maravilla
+    - maravilloso
+    - estoy muy bien
+    - me siento increíble
+    - me siento fantástico
+    - súper bien
+    - estoy excelente
+    - me siento en la cima del mundo
+
+- intent: mood_unhappy
+  examples: |
+    - mi día fue horrible
+    - estoy triste
+    - no me siento bien
+    - estoy decepcionado
+    - muy triste
+    - estoy tan triste
+    - triste
+    - muy triste
+    - infeliz
+    - no me siento bien
+    - extremadamente triste
+
+- intent: bot_challenge
+  examples: |
+    - ¿eres un bot?
+    - ¿eres humano?
+    - ¿estoy hablando con un bot?
+    - ¿estoy hablando con un humano?
+
+- intent: saldo_cuenta
+  examples: |
+    - ¿Cuál es el saldo de mi cuenta [12345678](numero_cuenta)?
+    - Quiero saber cuánto tengo en la cuenta [987654](numero_cuenta)
+    - ¿Puedes decirme el saldo disponible de la cuenta número [456789](numero_cuenta)?
+    - saldo de la cuenta [789123](numero_cuenta)
+    - saldo cuenta [789123](numero_cuenta)
+    - saldo [789123](numero_cuenta)
+    
+- intent: consultar_movimientos
+  examples: |
+    - Quiero ver los últimos movimientos de mi cuenta
+    - Movimientos del [01-03-2025](fechaDesde) al [31-03-2025](fechaHasta) para la cuenta [11013207128](numero_cuenta)
+    - Movimientos entre el [01-03-2025](fechaDesde) y el [31-03-2025](fechaHasta) para la cuenta número [11013207128](numero_cuenta)
+    - Muéstrame los movimientos desde el [01-03-2025](fechaDesde) hasta el [31-03-2025](fechaHasta) para la cuenta [11013207128](numero_cuenta)
+    - Necesito los movimientos de la cuenta [11013207128](numero_cuenta) entre el [01-03-2025](fechaDesde) y el [31-03-2025](fechaHasta)
+    - ¿Cuáles son los movimientos desde [01-03-2025](fechaDesde) hasta [31-03-2025](fechaHasta) de la cuenta [11013207128](numero_cuenta)?
+

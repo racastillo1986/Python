@@ -1,0 +1,18 @@
+version: "3.1"
+
+rules:
+- rule: Responder a saludo
+  steps:
+    - intent: greet
+    - action: utter_greet
+
+- rule: Consultar saldo de cuenta
+  steps:
+    - intent: saldo_cuenta
+    - action: utter_confirmacion_saldo
+    - action: action_consultar_saldo
+    
+- rule: Consultar movimientos de cuenta
+  steps:
+    - intent: consultar_movimientos
+    - action: action_consultar_movimientos
