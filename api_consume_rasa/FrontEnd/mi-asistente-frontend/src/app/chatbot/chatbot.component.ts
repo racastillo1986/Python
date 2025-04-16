@@ -1,5 +1,5 @@
-import {Component, ViewChild, ElementRef, AfterViewInit} from '@angular/core';
-import {HttpClient} from "@angular/common/http";
+import { Component, ViewChild, ElementRef, AfterViewInit, OnInit } from '@angular/core';
+import { HttpClient } from "@angular/common/http";
 import {
   trigger,
   style,
@@ -7,7 +7,6 @@ import {
   animate
 } from '@angular/animations';
 
-// AfterViewInit -> sirve para correr código justo después de que el HTML esté listo para usarse
 @Component({
   selector: 'app-chatbot',
   templateUrl: './chatbot.component.html',
@@ -15,21 +14,36 @@ import {
   animations: [
     trigger('fadeInUp', [
       transition(':enter', [
-        style({opacity: 0, transform: 'translateY(10px)'}),
-        animate('300ms ease-out', style({opacity: 1, transform: 'translateY(0)'}))
+        style({ opacity: 0, transform: 'translateY(10px)' }),
+        animate('300ms ease-out', style({ opacity: 1, transform: 'translateY(0)' }))
       ])
     ])
   ]
 })
-export class ChatbotComponent implements AfterViewInit {
+export class ChatbotComponent implements AfterViewInit, OnInit {
 
   @ViewChild('scrollContainer') scrollContainer!: ElementRef;
 
-
   mensaje: string = '';
-  mensajes: { tipo: 'usuario' | 'bot', texto: string }[] = [];
+  mensajes: { tipo: 'usuario' | 'bot', texto: string, hora: string }[] = [];
 
   private autoScroll = true;
+
+  constructor(private http: HttpClient) { }
+
+  ngOnInit() {
+    const historial = localStorage.getItem('historialChat');
+    if (historial) {
+      this.mensajes = JSON.parse(historial);
+    } else {
+      this.mensajes.push({
+        tipo: 'bot',
+        texto: '¡Hola! 😊 ¿En qué puedo ayudarte hoy?',
+        hora: this.obtenerHora()
+      });
+      this.guardarMensajesEnLocalStorage();
+    }
+  }
 
   ngAfterViewInit() {
     this.scrollContainer.nativeElement.addEventListener('scroll', () => {
@@ -37,19 +51,18 @@ export class ChatbotComponent implements AfterViewInit {
       const atBottom = element.scrollHeight - element.scrollTop === element.clientHeight;
       this.autoScroll = atBottom;
     });
-
     this.scrollToBottom();
   }
-
 
   ngAfterViewChecked() {
     this.scrollToBottom();
   }
 
-  constructor(private http: HttpClient) {
-  }
-
   objectKeys = Object.keys;
+
+  obtenerHora(): string {
+    return new Date().toLocaleString([], { dateStyle: 'short', timeStyle: 'short' });
+  }
 
   isJson(texto: string): boolean {
     try {
@@ -83,10 +96,15 @@ export class ChatbotComponent implements AfterViewInit {
     }
   }
 
+  guardarMensajesEnLocalStorage() {
+    localStorage.setItem('historialChat', JSON.stringify(this.mensajes));
+  }
 
   enviarMensaje() {
     if (this.mensaje.trim()) {
-      this.mensajes.push({tipo: 'usuario', texto: this.mensaje});
+      const horaActual = this.obtenerHora();
+      this.mensajes.push({ tipo: 'usuario', texto: this.mensaje, hora: horaActual });
+      this.guardarMensajesEnLocalStorage();
       this.scrollToBottom();
 
       const payload = {
@@ -95,28 +113,49 @@ export class ChatbotComponent implements AfterViewInit {
       };
 
       // mensaje temporal del bot
-      this.mensajes.push({tipo: 'bot', texto: 'Estoy pensando 🤖...'});
+      this.mensajes.push({ tipo: 'bot', texto: 'Estoy pensando 🤖...', hora: this.obtenerHora() });
       this.scrollToBottom();
 
       this.http.post<any[]>('http://localhost:8080/asistente/mensaje', payload).subscribe({
         next: (respuestas) => {
-          // quitar el mensaje temporal
-          this.mensajes.pop();
-
+          this.mensajes.pop(); // quitar el "Estoy pensando 🤖..."
           respuestas.forEach(res => {
-            this.mensajes.push({tipo: 'bot', texto: res.text});
+            this.mensajes.push({ tipo: 'bot', texto: res.text, hora: this.obtenerHora() });
+            this.guardarMensajesEnLocalStorage();
             this.scrollToBottom();
           });
         },
         error: (error) => {
-          this.mensajes.pop(); // quita el "Estoy pensando 🤖..."
+          this.mensajes.pop(); // quitar el "Estoy pensando 🤖..."
           console.error('❌ Error al comunicar con el backend:', error);
-          this.mensajes.push({tipo: 'bot', texto: '❌ Error al conectar con el asistente.'});
+          this.mensajes.push({
+            tipo: 'bot',
+            texto: '❌ Error al conectar con el asistente.',
+            hora: this.obtenerHora()
+          });
           this.scrollToBottom();
         }
       });
 
       this.mensaje = '';
     }
+  }
+
+  borrarHistorial() {
+    const confirmar = confirm('¿Estás seguro de que deseas borrar todo el historial?');
+    if (!confirmar) return;
+
+    this.mensajes = [];
+    localStorage.removeItem('historialChat');
+
+    // Mostrar mensaje sin guardarlo
+    this.mensajes.push({
+      tipo: 'bot',
+      texto: '🗑️ Historial eliminado. ¡Empecemos de nuevo!',
+      hora: this.obtenerHora()
+    });
+
+    // NOTA: No se llama a this.guardarMensajesEnLocalStorage()
+    this.scrollToBottom();
   }
 }

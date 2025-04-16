@@ -101,3 +101,18 @@
 .boton-enviar.mat-icon-button.mat-primary {
   color: #0077cc;
 }
+
+.hora-mensaje {
+  font-size: 10px;
+  color: #999;
+  text-align: right;
+  margin-top: 4px;
+}
+
+.historial-control {
+  display: flex;
+  justify-content: center;
+  padding: 8px;
+}
+
+
