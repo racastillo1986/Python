@@ -1,0 +1,103 @@
+.chat-container {
+  border: 1px solid #ccc;
+  padding: 1rem;
+  border-radius: 10px;
+  max-width: 500px;
+  margin: 0 auto;
+  height: 400px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  overflow-y: auto;
+}
+
+.messages {
+  flex: 1;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Mensajes del usuario */
+.usuario {
+  align-self: flex-end;
+  background-color: #daf1fc;
+  margin: 4px 0;
+  padding: 6px 10px;
+  border-radius: 10px;
+  max-width: 80%;
+}
+
+/* Mensajes del bot */
+.bot {
+  align-self: flex-start;
+  background-color: #f1f1f1;
+  margin: 4px 0;
+  padding: 6px 10px;
+  border-radius: 10px;
+  max-width: 80%;
+}
+
+/* Tarjetas para respuestas JSON */
+.tarjeta-json {
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 8px;
+  margin: 4px 0;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Contenedor del input y botón */
+.input-container {
+  display: flex;
+  align-items: flex-end;
+  gap: 8px;
+  margin-top: 1rem;
+}
+
+.input-full {
+  flex: 1;
+}
+
+/* Input Material redondeado */
+::ng-deep .mat-form-field-appearance-fill .mat-form-field-flex {
+  background-color: #fff;
+  border-radius: 20px;
+  border: 1px solid #ccc;
+  padding-left: 12px;
+  box-shadow: none;
+}
+
+/* Efecto suave al enfocar */
+::ng-deep .mat-form-field-appearance-fill.mat-focused .mat-form-field-flex {
+  border-color: #66afe9;
+  box-shadow: 0 0 3px rgba(102, 175, 233, 0.6);
+}
+
+/* Texto del input */
+::ng-deep .mat-input-element {
+  padding: 10px;
+  font-size: 14px;
+  border-radius: 20px;
+}
+
+/* Label del input */
+::ng-deep .mat-form-field-label {
+  font-weight: 400;
+  color: #666;
+}
+
+/* Botón de enviar con alineación y color */
+.boton-enviar {
+  align-self: flex-start; /* Alineado al tope del input */
+  height: 56px; /* Igual que el alto del input Material */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Color amigable para el ícono */
+.boton-enviar.mat-icon-button.mat-primary {
+  color: #0077cc;
+}

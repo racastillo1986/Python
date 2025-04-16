@@ -1,0 +1,30 @@
+<div class="chat-container">
+  <!-- Sección de mensajes -->
+  <div class="messages" #scrollContainer>
+    <div *ngFor="let msg of mensajes" [ngClass]="msg.tipo" [@fadeInUp]>
+    <ng-container *ngIf="isJson(msg.texto); else textoPlano">
+        <mat-card class="tarjeta-json" *ngFor="let item of parseJson(msg.texto)">
+          <div *ngFor="let key of objectKeys(item)">
+            <strong>{{ key }}:</strong> {{ item[key] }}
+          </div>
+        </mat-card>
+      </ng-container>
+      <ng-template #textoPlano>
+        <mat-card>{{ msg.texto }}</mat-card>
+      </ng-template>
+    </div>
+  </div>
+
+  <!-- Sección del input + botón -->
+  <div class="input-container">
+    <mat-form-field appearance="fill" class="input-full">
+      <input matInput [(ngModel)]="mensaje" placeholder="Escribe tu mensaje" (keyup.enter)="enviarMensaje()" />
+    </mat-form-field>
+
+    <button mat-icon-button color="primary" (click)="enviarMensaje()" class="boton-enviar">
+      <mat-icon>send</mat-icon>
+    </button>
+  </div>
+
+
+</div>
