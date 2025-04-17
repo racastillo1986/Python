@@ -8,74 +8,27 @@ intents:
   - mood_great
   - mood_unhappy
   - bot_challenge
-  - horario      # NUEVO INTENT
-  - servicios    # NUEVO INTENT
+  - horario
+  - servicios
   - saldo_cuenta
   - consultar_movimientos
   - consultar_direccion
   - consultar_telefono
 
 entities:
-  - numero_cuenta
+  - numeroCuenta
   - fechaDesde
   - fechaHasta
   - identificacion
 
-responses:
-  utter_happy:
-    - text: "¡Qué bueno que te sientes bien! ¡Sigue así!"
-  utter_cheer_up:
-    - text: "Aquí tienes algo para animarte:"
-      image: "https://i.imgur.com/nGF1K8f.jpg"
-  utter_greet:
-    - text: "¡Hola! ¿Cómo estás?"
-  utter_goodbye:
-    - text: "Adiós, que tengas un buen día."
-  utter_iamabot:
-    - text: "Soy un bot, impulsado por Rasa."
-  utter_mood_great:
-    - text: "¡Genial, sigue así!"
-  utter_mood_unhappy:
-    - text: "Lo siento mucho. Espero que tu día mejore pronto."
-  utter_did_that_help:
-    - text: "¿Te ayudó eso?"
-  utter_bot_challenge:
-    - text: "¡Sí, soy un bot! ¿En qué puedo ayudarte?"
-  utter_horario:
-    - text: "Nuestro horario de atención es de 9 AM a 6 PM, de lunes a viernes."  
-  utter_servicios:
-    - text: "Ofrecemos una variedad de servicios, incluyendo soporte técnico, asesoría personalizada y desarrollo de software."
-    
-  utter_solicitar_numero_cuenta:
-    - text: "¿Podrías indicarme el número de tu cuenta?"
-
-  utter_confirmacion_saldo:
-    - text: "Un momento, estoy consultando el saldo para la cuenta {numero_cuenta}..."
-  
-  utter_movimientos:
-    - text: "Un momento, estoy consultando los movimientos..."
-  
-  utter_ask_identificacion:
-    - text: "¿Cuál es tu número de identificación?"
-
-session_config:
-  session_expiration_time: 60
-  carry_over_slots_to_new_session: true
-
-actions:
-  - action_consultar_saldo
-  - action_consultar_movimientos
-  - action_consultar_direccion
-  - action_consultar_telefono
-  
 slots:
-  numero_cuenta:
+  numeroCuenta:
     type: text
     influence_conversation: false
     mappings:
       - type: from_entity
-        entity: numero_cuenta
-        
+        entity: numeroCuenta
+
   fechaDesde:
     type: text
     influence_conversation: false
@@ -97,3 +50,65 @@ slots:
       - type: from_entity
         entity: identificacion
 
+responses:
+  utter_greet:
+    - text: "¡Hola! ¿Cómo estás?"
+
+  utter_goodbye:
+    - text: "Adiós, que tengas un buen día."
+
+  utter_affirm:
+    - text: "¡Perfecto!"
+
+  utter_deny:
+    - text: "Entiendo, no hay problema."
+
+  utter_mood_great:
+    - text: "¡Genial, sigue así!"
+
+  utter_mood_unhappy:
+    - text: "Lo siento mucho. Espero que tu día mejore pronto."
+
+  utter_cheer_up:
+    - text: "Aquí tienes algo para animarte:"
+      image: "https://i.imgur.com/nGF1K8f.jpg"
+
+  utter_bot_challenge:
+    - text: "¡Sí, soy un bot! ¿En qué puedo ayudarte?"
+
+  utter_horario:
+    - text: "Nuestro horario de atención es de 9 AM a 6 PM, de lunes a viernes."
+
+  utter_servicios:
+    - text: "Ofrecemos una variedad de servicios, incluyendo soporte técnico, asesoría personalizada y desarrollo de software."
+
+  utter_solicitar_numero_cuenta:
+    - text: "¿Podrías indicarme el número de tu cuenta?"
+
+  utter_confirmacion_saldo:
+    - text: "Un momento, estoy consultando el saldo para la cuenta {numeroCuenta}..."
+
+  utter_movimientos:
+    - text: "Un momento, estoy consultando los movimientos..."
+
+  utter_ask_identificacion:
+    - text: "¿Cuál es tu número de identificación?"
+
+  utter_did_that_help:
+    - text: "¿Te ayudó eso?"
+
+
+actions:
+  - action_consultar_saldo
+  - action_consultar_movimientos
+  - action_consultar_direccion
+  - action_consultar_telefono
+
+forms:
+  form_direccion:
+    required_slots:
+      - identificacion
+
+session_config:
+  session_expiration_time: 60
+  carry_over_slots_to_new_session: true

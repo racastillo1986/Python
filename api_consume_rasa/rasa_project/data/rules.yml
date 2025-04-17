@@ -1,28 +1,38 @@
 version: "3.1"
 
 rules:
-- rule: Responder a saludo
-  steps:
-    - intent: greet
-    - action: utter_greet
 
-- rule: Consultar saldo de cuenta
-  steps:
-    - intent: saldo_cuenta
-    - action: utter_confirmacion_saldo
-    - action: action_consultar_saldo
-    
-- rule: Consultar movimientos de cuenta
-  steps:
-    - intent: consultar_movimientos
-    - action: action_consultar_movimientos
+  - rule: Responder a saludo
+    steps:
+      - intent: greet
+      - action: utter_greet
 
-- rule: Consultar direccion
-  steps:
-    - intent: consultar_direccion
-    - action: action_consultar_direccion
+  - rule: Consultar saldo de cuenta
+    steps:
+      - intent: saldo_cuenta
+      - action: utter_confirmacion_saldo
+      - action: action_consultar_saldo
 
-- rule: Consultar telefono
-  steps:
-    - intent: consultar_telefono
-    - action: action_consultar_telefono
+  - rule: Consultar movimientos de cuenta
+    steps:
+      - intent: consultar_movimientos
+      - action: action_consultar_movimientos
+
+  - rule: Iniciar formulario para dirección
+    steps:
+      - intent: consultar_direccion
+      - action: form_direccion
+      - active_loop: form_direccion
+
+  - rule: Ejecutar acción al completar formulario de dirección
+    condition:
+      - active_loop: form_direccion
+    steps:
+      - action: form_direccion
+      - active_loop: null
+      - action: action_consultar_direccion
+
+  - rule: Consultar teléfono
+    steps:
+      - intent: consultar_telefono
+      - action: action_consultar_telefono
