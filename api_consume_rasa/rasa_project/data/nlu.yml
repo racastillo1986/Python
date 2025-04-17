@@ -103,6 +103,10 @@ nlu:
     - saldo de la cuenta [789123](numero_cuenta)
     - saldo cuenta [789123](numero_cuenta)
     - saldo [789123](numero_cuenta)
+    - xfa dame el saldo de la cuenta [789123](numero_cuenta)
+    - xfa dame el saldo cuenta [789123](numero_cuenta)
+    - si xfa dame el saldo de la cuenta [789123](numero_cuenta)
+    
     
 - intent: consultar_movimientos
   examples: |
@@ -113,3 +117,22 @@ nlu:
     - Necesito los movimientos de la cuenta [11013207128](numero_cuenta) entre el [01-03-2025](fechaDesde) y el [31-03-2025](fechaHasta)
     - ¿Cuáles son los movimientos desde [01-03-2025](fechaDesde) hasta [31-03-2025](fechaHasta) de la cuenta [11013207128](numero_cuenta)?
 
+- intent: consultar_direccion
+  examples: |
+    - ¿Cuáles son mis direcciones registradas?
+    - Quiero ver mis direcciones
+    - ¿Dónde tengo registradas direcciones?
+    - ¿Me puedes decir mis direcciones?
+    - Consulta de direcciones para la cédula [1234567890](identificacion)
+    - Quiero ver direcciones de la persona con cédula [1723456789](identificacion)
+    - Direcciones para [1310910000](identificacion)
+
+- intent: consultar_telefono
+  examples: |
+    - ¿Cuáles son mis telefonos registrados?
+    - Quiero ver mis telefonos
+    - ¿Dónde tengo registrados telefonos?
+    - ¿Me puedes decir mis telefonos?
+    - Consulta de telefonos para la cedula [1311311313](identificacion)
+    - Quiero ver telefonos de la persona con cédula [1311311313](identificacion)
+    - Telefonos para [1311311313](identificacion)

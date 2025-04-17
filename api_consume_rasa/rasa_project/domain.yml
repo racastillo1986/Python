@@ -12,11 +12,14 @@ intents:
   - servicios    # NUEVO INTENT
   - saldo_cuenta
   - consultar_movimientos
+  - consultar_direccion
+  - consultar_telefono
 
 entities:
   - numero_cuenta
   - fechaDesde
   - fechaHasta
+  - identificacion
 
 responses:
   utter_happy:
@@ -51,6 +54,9 @@ responses:
   
   utter_movimientos:
     - text: "Un momento, estoy consultando los movimientos..."
+  
+  utter_ask_identificacion:
+    - text: "¿Cuál es tu número de identificación?"
 
 session_config:
   session_expiration_time: 60
@@ -59,6 +65,8 @@ session_config:
 actions:
   - action_consultar_saldo
   - action_consultar_movimientos
+  - action_consultar_direccion
+  - action_consultar_telefono
   
 slots:
   numero_cuenta:
@@ -81,3 +89,11 @@ slots:
     mappings:
       - type: from_entity
         entity: fechaHasta
+
+  identificacion:
+    type: text
+    influence_conversation: false
+    mappings:
+      - type: from_entity
+        entity: identificacion
+

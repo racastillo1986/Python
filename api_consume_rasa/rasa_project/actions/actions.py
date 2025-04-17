@@ -3,6 +3,7 @@ from rasa_sdk import Action, Tracker
 from rasa_sdk.executor import CollectingDispatcher
 from rasa_sdk.events import SlotSet, EventType
 import requests
+import json
 
 class ActionConsultarSaldo(Action):
     def name(self) -> Text:
@@ -70,15 +71,85 @@ class ActionConsultarMovimientos(Action):
             if response.status_code == 200:
                 movimientos = response.json()
                 if movimientos:
-                    mensaje = "Aquí tienes los últimos movimientos:\n"
-                    for m in movimientos:
-                        mensaje += f"- {m['fechaHora']} | {m['descripcion']} | ${m['valor']}\n"
-                    dispatcher.utter_message(text=mensaje)
+                    # Convertimos la lista de movimientos a JSON plano
+                    texto_json = json.dumps(movimientos)
+                    dispatcher.utter_message(text=f"MOVIMIENTOS_JSON: {texto_json}")
                 else:
                     dispatcher.utter_message(text="No se encontraron movimientos para ese período.")
             else:
                 dispatcher.utter_message(text="Ocurrió un error al consultar los movimientos.")
         except Exception as e:
             dispatcher.utter_message(text=f"No se pudo conectar al servidor. Detalles: {str(e)}")
+
+        return []
+    
+class ActionConsultarDireccion(Action):
+    def name(self) -> Text:
+        return "action_consultar_direccion" 
+    
+    def run(self, dispatcher: CollectingDispatcher,
+            tracker: Tracker,
+            domain: Dict[Text, Any]) -> List[EventType]:
+        
+        identificacion = tracker.get_slot("identificacion")
+        print(f"Identificacion a consultar: {identificacion}")
+        
+        if not identificacion:
+            dispatcher.utter_message(text="Podrias indicarme el numero de identificacion???")
+            return []
+        
+        url = f"http://localhost:8080/direcciones/all/{identificacion}"
+        
+        try:
+            response = requests.get(url)
+            if response.status_code == 200:
+                direcciones = response.json()
+                if direcciones:
+                    # Convertimos la lista de direcciones a JSON plano
+                    texto_json = json.dumps(direcciones)
+                    dispatcher.utter_message(text=f"DIRECCIONES_JSON: {texto_json}")
+                else:
+                    dispatcher.utter_message(text="No se encontraron direcciones para esa identificacion.")
+            else:
+                dispatcher.utter_message(text="Ocurrió un error al consultar las direcciones.")
+                
+        except Exception as e:
+            dispatcher.utter_message(text="Ocurrió un error al consultar direcciones.")
+        
+        return []
+    
+class ActionConsultarTelefono(Action):
+    def name(self) -> Text:
+        return "action_consultar_telefono"
+    
+    def run(self, dispatcher: CollectingDispatcher,
+            tracker: Tracker,
+            domain: Dict[Text, Any]) -> List[EventType]:
+
+        identificacion = tracker.get_slot("identificacion")
+        print("Identificacion", identificacion)
+
+        if not identificacion:
+            dispatcher.utter_message(text="¿Podrías indicarme el número de identificación?")
+            return []
+
+        url = f"http://localhost:8080/telefonos/{identificacion}"
+
+        try:
+            response = requests.get(url)
+            if response.status_code == 200:
+                telefonos = response.json()
+                if telefonos:
+                    # Convertimos la lista de teléfonos a JSON plano
+                    texto_json = json.dumps(telefonos)
+                    dispatcher.utter_message(text=f"TELEFONOS_JSON: {texto_json}")
+                else:
+                    dispatcher.utter_message(text="No se encontraron teléfonos para esa identificación.")
+            else:
+                dispatcher.utter_message(text="Ocurrió un error al consultar los teléfonos.")
+
+        except Exception as e:
+            print("Error en action_consultar_telefono:", e)
+            dispatcher.utter_message(text="Ocurrió un error al consultar teléfonos.")
 
         return []

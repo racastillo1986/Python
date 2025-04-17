@@ -16,3 +16,13 @@ rules:
   steps:
     - intent: consultar_movimientos
     - action: action_consultar_movimientos
+
+- rule: Consultar direccion
+  steps:
+    - intent: consultar_direccion
+    - action: action_consultar_direccion
+
+- rule: Consultar telefono
+  steps:
+    - intent: consultar_telefono
+    - action: action_consultar_telefono
